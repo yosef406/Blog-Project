@@ -1,0 +1,15 @@
+1. user signUp
+2. FrontEnd validates users info 
+3. FrontEnd sends info to BackEnd
+4. BackEnd validates users info AGAIN!!! 
+5. BackEnd hashes the password 
+6. BackEnd saves the info with the hashed password to DataBase
+
+7. user wants to login 
+8. user enters an email and a password
+9. FrontEnd sends info to BackEnd
+10. BackEnd hashes the password
+11. BackEnd finds the user with the correct email in the DataBase
+12. BackEnd compares passwords 
+13. if passwords are equal return to front end that the user can login (also send user info)
+14. if the passwords are NOT equal BackEnd sends to FrontEnd user cant login
