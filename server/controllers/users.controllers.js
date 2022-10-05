@@ -1,13 +1,35 @@
 const usersSchema = require('../models/Users.model');
+const crypto = require('crypto');
+
+function hashPassword(password, salt) {
+    // if needed for compare don't generate salt
+    if (salt == null)
+        salt = crypto
+            .randomBytes(16)
+            .toString('base64');
+    // generate hash from password and salt
+    let hash = salt + crypto
+        .createHash('sha256')
+        .update(salt + password)
+        .digest('hex');
+
+    return hash;
+}
+
+function comparePassHash(password, hash) {
+    // take the salt from the hash 
+    let salt = hash.split('==')[0];
+    salt += '==';
+    //create new hash of password with the salt
+    let hashedPass = hashPassword(password, salt);
+
+    return hashedPass == hash;
+}
 
 exports.post_signup = (req, res) => {
     let userBody = req.body;
 
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //! will change to create secure password
-
-
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    userBody.password = hashPassword(userBody.password);
 
     let user = new usersSchema(userBody);
 
@@ -18,9 +40,6 @@ exports.post_signup = (req, res) => {
 
 exports.post_login = (req, res) => {
     let { email, password } = req.body;
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //! hash the password
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     // select name,email,password,_id from Users
     // WHERE email == users.email 
@@ -28,9 +47,9 @@ exports.post_login = (req, res) => {
         .findOne({ email }, { name: 1, email: 1, password: 1 })
         .then((result) => {
             if (result != null) {
-                // ! test the password
-                let validPass = result.password === "123xyz";
 
+                let validPass = comparePassHash(password, result.password);
+                console.log(validPass);
                 if (validPass)
                     res.status(202).json({
                         message: "login success.",

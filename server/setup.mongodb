@@ -1,0 +1,42 @@
+const database = 'vacations';
+
+use(database);
+
+db.users.drop();
+
+db.users.createIndex({email:1});
+
+// plase use email: theKing@sunny.sea with password: iLoveMeat to use admin
+
+db.users.insertMany([
+  {
+    "name": "Luffy",
+    "email": "theKing@sunny.sea",
+    "password": "iLoveMeat",
+    "gender": "male",
+    "role": "admin",
+    "createdAt": new Date(),
+    "updatedAt": new Date(),
+    "__v": 0
+  },
+  {
+    "name": "Zoro",
+    "email": "im_lost@sunny.sea",
+    "password": "theBestSamuray",
+    "gender": "male",
+    "role": "reader",
+    "createdAt": new Date(),
+    "updatedAt": new Date(),
+    "__v": 0
+  },
+  {
+    "name": "Sanji",
+    "email": "whos_hungry@sunny.sea",
+    "password": "nammy&robin",
+    "gender": "male",
+    "role": "writer",
+    "createdAt": new Date(),
+    "updatedAt": new Date(),
+    "__v": 0
+  }
+]);
