@@ -44,7 +44,7 @@ exports.post_login = (req, res) => {
     // select name,email,password,_id from Users
     // WHERE email == users.email 
     usersSchema
-        .findOne({ email }, { name: 1, email: 1, password: 1 })
+        .findOne({ email }, { name: 1, email: 1, password: 1, role: 1 })
         .then((result) => {
             if (result != null) {
 
