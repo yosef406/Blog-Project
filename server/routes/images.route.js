@@ -36,6 +36,21 @@ imageRoute.get('/all', (req, res) => {
     )
 });
 
+imageRoute.get('/data/:id', (req, res) => {
+    ImageSchema.findById(req.params.id).then((result) => {
+        if (result) res
+            .status(200)
+            .send(result.data);
+        else res
+            .status(500)
+            .json({ message: "cant find images", success: false });
+
+    }).catch((err) =>
+        res
+            .status(500)
+            .json({ message: "cant find images", success: false, error: err })
+    )
+});
 imageRoute.get('/:id', (req, res) => {
     console.log("new image fetch: ", req.params.id);
     ImageSchema.findById(req.params.id).then((result) => {
