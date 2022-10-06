@@ -13,7 +13,7 @@ usersRoute.get("/all", (req, res) => {
 });
 
 
-usersRoute.get("/single/:id", middleware.getUserWithID, (req, res) => {
+usersRoute.get("/:id", middleware.getUserWithID, (req, res) => {
     res.status(200).json({ user: req.user });
 });
 
