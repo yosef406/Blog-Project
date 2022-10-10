@@ -31,7 +31,7 @@ exports.post_signup = (req, res) => {
 
     userBody.password = hashPassword(userBody.password);
 
-    let user = new usersSchema(userBody);
+    let user = new usersSchema({ ...userBody, following: '6343030764d0a8c571fa6e0f' });
 
     user.save()
         .then(() => res.status(201).json({ message: "User was added to the DataBase.", success: true }))
@@ -47,9 +47,7 @@ exports.post_login = (req, res) => {
         .findOne({ email }, { name: 1, email: 1, password: 1, role: 1 })
         .then((result) => {
             if (result != null) {
-
                 let validPass = comparePassHash(password, result.password);
-                console.log(validPass);
                 if (validPass)
                     res.status(202).json({
                         message: "login success.",

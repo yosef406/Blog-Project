@@ -1,6 +1,8 @@
-const database = 'vacations';
+const database = 'BlogProject';
 
 use(database);
+
+// db.Vacation.insertOne({name:'hawai',startDate:new Date('2022-12-1'),endDate:new Date('2022-12-8')});
 
 db.users.drop();
 

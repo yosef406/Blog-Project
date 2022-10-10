@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { addUser, getUserSignInState } from "../data/slices/userSlice";
 
 function LogInForm() {
   const [userInfo, setUserInfo] = useState({ email: "", password: "" });
   const [postUser, setPostUser] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const userIsIn = useSelector(getUserSignInState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (postUser)
@@ -18,11 +25,11 @@ function LogInForm() {
           return res.json();
         })
         .then((data) => {
-          if (data.success) {
-            //! redux save user
-            //! navigate to home page
-            console.log(data);
+          if (data.success === true) {
+            dispatch(addUser(data.user));
+            navigate("/");
           } else {
+            // ! Display error
           }
         })
         .catch((err) => console.log(err));
@@ -38,6 +45,9 @@ function LogInForm() {
     setLoading(true);
     setPostUser(true);
   };
+  console.log(userIsIn);
+
+  if (userIsIn) return <Navigate to="/" />;
   return (
     <>
       <div>
@@ -55,6 +65,7 @@ function LogInForm() {
           <button onClick={logBtn}>Log In</button>
         )}
       </div>
+      <Link to="/signup">sign up </Link>
     </>
   );
 }

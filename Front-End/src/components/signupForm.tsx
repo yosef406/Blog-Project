@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 function SignUpForm() {
   const [postUser, setPostUser] = useState(false);
+
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
     password: "",
     gender: "",
+    role: "",
+    // date: new Date(),
   });
+
+  const navigate = useNavigate();
 
   const signUpBtn = () => {
     let name = (document.getElementById("userName") as HTMLInputElement).value;
@@ -26,7 +32,7 @@ function SignUpForm() {
     }
     // !!!!!
 
-    setUserInfo({ name, email, password, gender });
+    setUserInfo({ name, email, password, gender, role: "asfg" });
     setPostUser(true);
   };
 
@@ -41,7 +47,11 @@ function SignUpForm() {
           setPostUser(false);
           return result.json();
         })
-        .then((data) => console.log("Data: ", data))
+        .then((data) => {
+          console.log(data);
+
+          // navigate("/login");
+        })
         .catch((err) => console.log("Error: ", err));
     }
   });
@@ -75,6 +85,7 @@ function SignUpForm() {
         </button>
         <div></div>
       </div>
+      <Link to="/login">Log in</Link>
     </>
   );
 }

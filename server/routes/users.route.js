@@ -3,13 +3,22 @@ const usersSchema = require('../models/Users.model');
 const bcrypt = require("bcrypt");
 const controller = require("../controllers/users.controllers");
 const middleware = require("../middleware/users.middleware");
+const v = require("../models/vacation.model");
 
 usersRoute.post("/signup", controller.post_signup);
 
 usersRoute.post("/login", controller.post_login);
 
-usersRoute.get("/all", (req, res) => {
-    res.send("all user");
+usersRoute.get("/all", async (req, res) => {
+    // let newV = new v({ name: "Hawai", startDate: Date.now(), endDate: Date.now() })
+    // await newV.save();
+    usersSchema.findById('63430348bbf25cb2bbb6126c')
+        .populate('following')
+        .then((result) => {
+            if (result) {
+                res.json({ user: result });
+            }
+        })
 });
 
 

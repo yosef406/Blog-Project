@@ -8,16 +8,23 @@ interface userType {
     signedIn: boolean
 }
 
+function getCurrentUser() {
+    if (sessionStorage.getItem('currentUser')) {
+        return JSON.parse(sessionStorage.getItem('currentUser') as string) as userType;
+    }
+    return {
+        name: "",
+        email: "",
+        id: "",
+        role: "",
+        signedIn: false
+    }
+}
+
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-        value: {
-            name: "",
-            email: "",
-            id: "",
-            role: "",
-            isSignedIn: false
-        }
+        value: getCurrentUser()
     },
     reducers: {
         addUser: (state, action) => {
@@ -26,8 +33,9 @@ export const userSlice = createSlice({
                 email: action.payload.email,
                 id: action.payload.id,
                 role: action.payload.role,
-                isSignedIn: true
+                signedIn: true
             }
+            sessionStorage.setItem('currentUser', JSON.stringify(newUser));
             state.value = newUser;
         },
         removeUser: (state) => {
@@ -36,8 +44,9 @@ export const userSlice = createSlice({
                 email: "",
                 id: "",
                 role: "",
-                isSignedIn: false
+                signedIn: false
             }
+            sessionStorage.removeItem('currentUser');
         }
     },
 });
@@ -45,5 +54,7 @@ export const userSlice = createSlice({
 export const { addUser, removeUser } = userSlice.actions;
 
 export const getUser = (state: { user: { value: userType } }) => state.user.value;
+export const getUserRole = (state: { user: { value: userType } }) => state.user.value.role;
+export const getUserSignInState = (state: { user: { value: userType } }) => state.user.value.signedIn;
 
 export default userSlice.reducer;

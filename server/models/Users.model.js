@@ -23,7 +23,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ["admin", "reader", "writer"],
         default: "reader"
-    }
+    },
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Vacation',
+    }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Users', UserSchema);
