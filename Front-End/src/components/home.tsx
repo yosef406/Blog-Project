@@ -4,12 +4,6 @@ import { getUserSignInState } from "../data/slices/userSlice";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 function Home() {
-  let test1: string | number;
-
-  test1 = 10;
-
-  console.log("date: ", new Date(1665334718619));
-
   const navigate = useNavigate();
   const userIsIn = useSelector(getUserSignInState);
 

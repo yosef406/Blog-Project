@@ -9,8 +9,6 @@ function SignUpForm() {
     email: "",
     password: "",
     gender: "",
-    role: "",
-    // date: new Date(),
   });
 
   const navigate = useNavigate();
@@ -32,7 +30,7 @@ function SignUpForm() {
     }
     // !!!!!
 
-    setUserInfo({ name, email, password, gender, role: "asfg" });
+    setUserInfo({ name, email, password, gender });
     setPostUser(true);
   };
 
@@ -50,7 +48,7 @@ function SignUpForm() {
         .then((data) => {
           console.log(data);
 
-          // navigate("/login");
+          navigate("/login");
         })
         .catch((err) => console.log("Error: ", err));
     }
